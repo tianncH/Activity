@@ -1,0 +1,409 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Dos Computer Solution',
+      theme: ThemeData.dark(),
+      home: const MainPage(),
+    );
+  }
+}
+
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = const [
+    HomeScreen(),
+    Center(child: Text("Services Page")),
+    Center(child: Text("Profile Page")),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) => setState(() => _selectedIndex = index),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.build), label: "Services"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+        ],
+      ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView(
+        children: [
+          // Hero Section with placeholder
+          Container(
+            height: 250,
+            color: Colors.blueGrey.shade900,
+            child: Stack(
+              children: [
+                Container(color: Colors.black.withOpacity(0.5)),
+                Positioned(
+                  bottom: 40,
+                  left: 20,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Dos Computer Solution",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 😎,
+                      const Text(
+                        "Professional computer repair services\nyou can trust",
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                      const SizedBox(height: 12),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                        ),
+                        child: const Text("Request Service"),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text("Contact Us"),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // Services Section
+          const SectionTitle(title: "Our Services"),
+          GridView.count(
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(12),
+            children: const [
+              ServiceCard(
+                  icon: Icons.computer,
+                  title: "PC Repair",
+                  subtitle: "Desktop computer diagnostics and repair"),
+              ServiceCard(
+                  icon: Icons.laptop,
+                  title: "Laptop Upgrades",
+                  subtitle: "Hardware upgrades and performance optimization"),
+              ServiceCard(
+                  icon: Icons.security,
+                  title: "Virus Removal",
+                  subtitle: "Malware detection and system cleaning"),
+              ServiceCard(
+                  icon: Icons.sd_storage,
+                  title: "Data Recovery",
+                  subtitle: "Professional data recovery services"),
+            ],
+          ),
+
+          // Profile Card Section
+          const ProfileCard(),
+
+          // Customer Support Section
+          const SectionTitle(title: "Customer Support"),
+          const ChatBubble(
+            text:
+                "Hi! I'm here to help with your computer issues. What can I assist you with today?",
+            isMe: false,
+            sender: "Support Team",
+          ),
+          const ChatBubble(
+            text: "My laptop is running very slowly. Can you help?",
+            isMe: true,
+            sender: "You",
+          ),
+          const ChatBubble(
+            text:
+                "I'd be happy to help diagnose the issue. Let's schedule a diagnostic session.",
+            isMe: false,
+            sender: "Support Team",
+          ),
+
+          // Input box (static)
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: "Type your message...",
+                      filled: true,
+                      fillColor: Colors.black54,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 😎,
+                CircleAvatar(
+                  backgroundColor: Colors.teal,
+                  child: IconButton(
+                    icon: const Icon(Icons.send, color: Colors.white),
+                    onPressed: () {},
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Chat Bubble Widget
+class ChatBubble extends StatelessWidget {
+  final String text;
+  final bool isMe;
+  final String sender;
+
+  const ChatBubble(
+      {super.key,
+      required this.text,
+      required this.isMe,
+      required this.sender});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+        padding: const EdgeInsets.all(12),
+        constraints: const BoxConstraints(maxWidth: 280),
+        decoration: BoxDecoration(
+          color: isMe ? Colors.teal : Colors.black54,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          crossAxisAlignment:
+              isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          children: [
+            Text(
+              text,
+              style: TextStyle(color: isMe ? Colors.black : Colors.white),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              sender,
+              style: TextStyle(
+                fontSize: 10,
+                color: isMe ? Colors.black87 : Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Service Card
+class ServiceCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+
+  const ServiceCard(
+      {super.key,
+      required this.icon,
+      required this.title,
+      required this.subtitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.black54,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      margin: const EdgeInsets.all(😎,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 40, color: Colors.tealAccent),
+            const SizedBox(height: 10),
+            Text(title,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.white)),
+            const SizedBox(height: 6),
+            Text(
+              subtitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white70, fontSize: 12),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Section Title
+class SectionTitle extends StatelessWidget {
+  final String title;
+  const SectionTitle({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      color: Colors.black87,
+      child: Text(
+        title,
+        style: const TextStyle(
+            fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+      ),
+    );
+  }
+}
+
+// Profile Card
+class ProfileCard extends StatelessWidget {
+  const ProfileCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.black87,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const CircleAvatar(
+                  radius: 28,
+                  child: Icon(Icons.person, size: 32, color: Colors.white),
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      "Dos Computer Solution",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Certified Computer Technician",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: const [
+                Icon(Icons.star, color: Colors.amber, size: 20),
+                SizedBox(width: 4),
+                Text(
+                  "4.9 Rating ",
+                  style: TextStyle(color: Colors.white),
+                ),
+                Text(
+                  "(127 reviews)",
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+              ],
+            ),
+            const SizedBox(height: 😎,
+            Row(
+              children: const [
+                Icon(Icons.access_time, color: Colors.teal, size: 18),
+                SizedBox(width: 6),
+                Text(
+                  "Same-day service available",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Row(
+              children: const [
+                Icon(Icons.workspace_premium, color: Colors.teal, size: 18),
+                SizedBox(width: 6),
+                Text(
+                  "5+ years experience",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              children: [
+                Chip(
+                  label: const Text("Hardware"),
+                  backgroundColor: Colors.blueGrey,
+                  labelStyle: const TextStyle(color: Colors.white),
+                ),
+                Chip(
+                  label: const Text("Software"),
+                  backgroundColor: Colors.blueGrey,
+                  labelStyle: const TextStyle(color: Colors.white),
+                ),
+                Chip(
+                  label: const Text("Networking"),
+                  backgroundColor: Colors.blueGrey,
+                  labelStyle: const TextStyle(color: Colors.white),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
